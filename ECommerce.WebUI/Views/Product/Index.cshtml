@@ -1,0 +1,58 @@
+﻿@model ProductListViewModel
+
+<a class="btn btn-xs btn btn-outline-dark" href="/product/SortWithLetter?hasSortClicked=@Model.hasSortClicked&page=@Model.CurrentPage&category=@Model.CurrentCategory">
+    @if (Model.hasSortClicked)
+    {
+        <div>
+            Z-A
+        </div>
+    }
+    else
+    {
+        <div>
+            A-Z
+        </div>
+    }
+</a>
+<a class="btn btn-xs btn btn-outline-dark" href="/product/SortForPrice?page=@Model.CurrentPage&category=@Model.CurrentCategory">High-Lower</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th> ProductName</th>
+            <th>UnitPrice</th>
+            <th>UnitsInStock</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="mytable">
+        @foreach (var item in Model.Products)
+        {
+            <tr>
+                <td>
+                    @item.ProductName
+                </td>
+                <td>
+                    @item.UnitPrice
+                </td>
+                <td>
+                    @item.UnitsInStock
+                </td>
+                <td>
+                    <a class="btn btn-xs btn-success"
+                       href="/Cart/AddToCart?productId=@item.ProductId&page=@Model.CurrentPage&category=@Model.CurrentCategory">Add To Cart</a>
+                    @if (item.HasAdded)
+                    {
+                        <a id="remove" class="btn btn-xs btn-danger" href="/Cart/RemoveDirectly?productId=@item.ProductId">Remove from Cart</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<product-list-pager current-category="@Model.CurrentCategory"
+                    current-page="@Model.CurrentPage"
+                    page-count="@Model.PageCount"
+                    page-size="@Model.PageSize">
+
+</product-list-pager>

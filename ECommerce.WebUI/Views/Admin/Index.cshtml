@@ -1,0 +1,75 @@
+﻿@{
+    Layout = "_AdminLayout";
+}
+
+@model ProductListViewModel
+
+<p>
+    <a href="/admin/add" class="btn btn-outline-primary">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th> ProductName</th>
+            <th>UnitPrice</th>
+            <th>UnitsInStock</th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Products)
+        {
+            <tr id="@item.ProductId">
+                <td>
+                    @item.ProductName
+                </td>
+                <td>
+                    @item.UnitPrice
+                </td>
+                <td>
+                    @item.UnitsInStock
+                </td>
+                <td>
+                    <a class="btn btn-xs btn-success"
+                       asp-controller="Admin" asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
+                </td>
+
+                <td>
+                    <a class="btn btn-xs btn-success"
+                       onclick="GetData(@item.ProductId)">Open</a>
+                </td>
+
+                <td>
+                    <a class="btn btn-xs btn-success"
+                       asp-controller="Admin" asp-action="Delete">Submit Update</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<product-list-pager current-category="@Model.CurrentCategory"
+                    current-page="@Model.CurrentPage"
+                    page-count="@Model.PageCount"
+                    page-size="@Model.PageSize"
+                    admin="true">
+
+</product-list-pager>
+
+<script>
+
+    function GetData(id) {
+        event.stopPropagation();
+        const rows=document.getElementsByTagName("tr");
+        for(let i=0;i<rows.length;i++){
+            const element=rows[i];
+            element.style.backgroundColor = "white";
+
+        }
+        const tr = document.getElementById(id);
+        tr.style.backgroundColor = "springgreen";
+    }
+
+</script>
